@@ -1,0 +1,45 @@
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+'use strict';
+var maxspeed =0,estimatespeed=0;
+const KMPH_MPS=0.277778;
+const MPS_KMPH=3.6;
+
+maxspeed =(readline()*KMPH_MPS );
+const lightCount = parseInt(readline());
+
+estimatespeed=maxspeed; //Assume cruise in on maximum speed
+
+for (let i = 0; i < lightCount; i++) {
+    let inputs = readline().split(' '),
+     distance = (inputs[0]),
+     duration = (inputs[1]),
+     roughTime=(distance/maxspeed);
+       
+    /*case when estimated time with maximum speed 
+        is greater than duration of green light*/
+    if(roughTime>duration){
+        //determining by what factor is estimated time more than duration
+        let factor= Math.ceil(roughTime/duration);
+        
+        //estimating speed considering next possible green duration of signal
+        estimatespeed=distance/(factor*duration);
+       
+        if(estimatespeed > maxspeed){
+            let index=0;
+            /*if estimate speed > maxspeed  adjust speed to check if time needed
+            matches time needed to catch green of next signal*/
+           while((roughTime!==(factor*duration)) && index>0){
+                roughTime=distance/index;
+                 index--;
+            }
+        }
+}
+
+}
+console.log(parseInt(MPS_KMPH*estimatespeed));
+//console.log(parseInt(3.6*speed));
+// Write an action using console.log()
+// To debug: console.error('Debug messages...');
